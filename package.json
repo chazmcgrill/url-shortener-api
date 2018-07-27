@@ -1,0 +1,30 @@
+{
+  "name": "url-shortener-api",
+  "version": "1.0.0",
+  "description": "URL Shortener Microservice",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chazmcgrill/url-shortener-api.git"
+  },
+  "keywords": [
+    "url",
+    "shortener",
+    "api",
+    "micorservice",
+    "node",
+    "express"
+  ],
+  "author": "Charlie Taylor <mail@charlietaylorcoder.com> (https://charlietaylorcoder.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chazmcgrill/url-shortener-api/issues"
+  },
+  "homepage": "https://github.com/chazmcgrill/url-shortener-api#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
