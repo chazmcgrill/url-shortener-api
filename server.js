@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const dns = require('dns');
 
 require('dotenv').config();
 
@@ -17,8 +18,6 @@ const urlSchema = new mongoose.Schema({
 
 let Url = mongoose.model('Url', urlSchema);
 
-const test = [{min: 1, url: 'http://hurricanecharlie.co.uk'}];
-
 function saveUrl(url, done) {
   const newUrl = new Url({ url: url, minUrl: 1 });
   newUrl.save((err, data) => {
@@ -33,17 +32,21 @@ app.get('/', function(req, res) {
 });
 
 // request a minified url
-app.post('/api/minurl/new', function(req, res) {
-  saveUrl(req.body.url, function(err, data) {
-    res.json(data);
-  }) 
+app.post('/minurl/new', function(req, res) {
+  dns.lookup(req.body.url, function(err) {
+    if (err) return res.json({error: "Invalid Url"})
+    saveUrl(req.body.url, function (err, data) {
+      res.json(err ? { error: "Error Saving, Please Retry!" } : data);
+    });
+  });  
 });
 
 // get website from id
-app.get('/api/minurl/:id', function(req, res) {
-  const min = Number(req.params.id);
-  const url = test.filter(t => t.min === min)[0].url;
-  res.json({url: url})
+app.get('/minurl/:id', function(req, res) {
+  Url.findOne({ minUrl: req.params.id}, function(err, data) {
+    if (err) return res.json({error: "Invalid URL"});
+    res.json(data);
+  });
 });
 
 // setup server
