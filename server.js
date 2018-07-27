@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const dns = require('dns');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 require('dotenv').config();
 
@@ -12,14 +13,15 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}));
 
 const urlSchema = new mongoose.Schema({
-  minUrl: {type: Number, required: true},
   url: {type: String, required: true}
-})
+});
+
+urlSchema.plugin(AutoIncrement, { inc_field: 'minUrl' });
 
 let Url = mongoose.model('Url', urlSchema);
 
 function saveUrl(url, done) {
-  const newUrl = new Url({ url: url, minUrl: 1 });
+  const newUrl = new Url({ url: url });
   newUrl.save((err, data) => {
     if (err) return done(err, null);
     return done(null, data);
