@@ -35,12 +35,17 @@ app.get('/', function(req, res) {
 
 // request a minified url
 app.post('/minurl/new', function(req, res) {
-  dns.lookup(req.body.url, function(err) {
-    if (err) return res.json({error: "Invalid Url"})
-    saveUrl(req.body.url, function (err, data) {
-      res.json(err ? { error: "Error Saving, Please Retry!" } : data);
+  const newUrl = req.body.url;
+  Url.findOne({url: newUrl}, function(err, data) {
+    if (data) return res.json(data);
+
+    dns.lookup(newUrl, function (err) {
+      if (err) return res.json({ error: "Invalid Url" })
+      saveUrl(newUrl, function (err, data) {
+        res.json(err ? { error: "Error Saving, Please Retry!" } : data);
+      });
     });
-  });  
+  });
 });
 
 // get website from id
