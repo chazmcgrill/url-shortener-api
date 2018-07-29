@@ -5,8 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>URL Shortener</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="style.css">
 </head>
+  
 <body>
-  <h1>Working!</h1>
+  <div class="container">
+    <h2>URL Shortener Microservice</h2>
+    <p>Minifies inputted URL's</p>
+    <h3>Instructions: </h3>
+    <p>Insert the url to minify and submit:</p>
+    <form action="./minurl/new" method="post">
+      <input type="text" name="url">
+      <input type="submit" value="Minify">
+    </form>
+
+    <h3>Example New Request:</h3>
+    <p>POST https://chazmcgrill-urlshortener.glitch.me/minurl/new</p>
+
+    <h3>Example Output:</h3>
+    <p>
+      <code>{ "url": "www.charlietaylorcoder.com", "minUrl": 4 }</code>
+    </p>
+
+    <h3>Example Get Request:</h3>
+    <p>GET https://chazmcgrill-urlshortener.glitch.me/minurl/4</p>
+  </div>
+  <footer>
+    <p>coded by
+      <a href="http://www.charlietaylorcoder.com/">charlie taylor</a>
+    </p>
+  </footer>
 </body>
+
 </html>

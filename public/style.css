@@ -1,3 +1,46 @@
 body {
-  background: coral;
+	font-family: 'Roboto Mono', monospace;
+	font-size: 16px;
+	color: #222;
+	background-color: #FaFaFa;
+	text-align: center;
+	line-height: 1.4em;
+}
+.container {
+	padding: 0;
+	margin-top: 40px;
+}
+h3 {
+  margin-top: 30px;
+}
+.instructions {
+  position: relative;
+  text-align: justify;
+  max-width: 700px;
+  margin: 15px auto;
+}
+code {
+  padding: 2px;
+  color: #2574A9;
+  background-color: #fff;
+}
+ol {
+	list-style-position: inside;
+}
+ul {
+	list-style-type: none;
+}
+li {
+  margin-bottom: 0.5em;
+}
+.instructions li {
+  margin-bottom: 1em;
+}
+a {
+  color: #2574A9;
+  text-decoration: none;
+}
+footer {
+  margin-top: 40px;
+  font-size: 0.7rem;
 }

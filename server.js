@@ -6,7 +6,7 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 require('dotenv').config();
 
-mongoose.connect('mongodb://localhost:27017/minurl', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true });
 
 app.use(express.static('public'));
 app.use(express.json())
@@ -29,19 +29,19 @@ function saveUrl(url, done) {
 }
 
 // serve the main index page
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
 // request a minified url
-app.post('/minurl/new', function(req, res) {
+app.post('/minurl/new', (req, res) => {
   const newUrl = req.body.url;
-  Url.findOne({url: newUrl}, function(err, data) {
+  Url.findOne({url: newUrl}, (err, data) => {
     if (data) return res.json(data);
 
-    dns.lookup(newUrl, function (err) {
+    dns.lookup(newUrl,  (err) => {
       if (err) return res.json({ error: "Invalid Url" })
-      saveUrl(newUrl, function (err, data) {
+      saveUrl(newUrl,  (err, data) => {
         res.json(err ? { error: "Error Saving, Please Retry!" } : data);
       });
     });
@@ -49,16 +49,16 @@ app.post('/minurl/new', function(req, res) {
 });
 
 // get website from id
-app.get('/minurl/:id', function(req, res) {
-  Url.findOne({ minUrl: req.params.id}, function(err, data) {
+app.get('/minurl/:id', (req, res) => {
+  Url.findOne({ minUrl: req.params.id}, (err, data) => {
     if (err) return res.json({error: "Invalid URL"});
-    res.json(data);
+    res.status(301).redirect(`http://${data.url}`);
   });
 });
 
 // setup server
 const port = process.env.PORT || 8080;
 
-app.listen(port, function() {
+app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
